@@ -82,7 +82,7 @@ def checkForWords(currentString, line):
 
 #Main looping through each line of string
 line = 1
-for s in tqdm(strings(fileName)):
+for s in tqdm(strings(fileName), "Analysing lines", None, None, None, 0.5, 3.0, 0):
     if (len(s) > 6):
         if (checkForLinks(s, line) == False):
             checkForWords(s, line)
