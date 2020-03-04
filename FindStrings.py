@@ -9,7 +9,7 @@ import sys
 import enchant
 import re
 from tqdm import tqdm
-from nltk import everygrams
+from nltk import ngrams
 
 d = enchant.Dict("en_US")
 fileName = ""
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         fileName = sys.argv[1]
         print("Begining analysis... this may take a while")
         
-def strings(filename, min=4):
+def strings(filename, min=5):
     with open(filename, errors="ignore") as f:  # Python 3.x
         result = ""
         for c in f.read():
@@ -57,27 +57,27 @@ interestingStringsLine = []
 interestingStringsString = []
 interestingStringsCounter = 0
 def checkForWords(currentString, line):
+    
     if (len(currentString) > 8):
         evalString1 = currentString.replace("\n", "")
-        evalString2 = evalString1.replace(" ", "")
-        evalString2 = re.sub('[^\w]', '', evalString2)
+        evalString2 = re.sub('[^\w]', '', evalString1)
         evalString2 = re.sub('\d+', '', evalString2)
     
-        if (len(evalString2) > 8):
-            #Generate random words from the string
-            permutations = [''.join(_ngram) for _ngram in everygrams(evalString2)]
-            for x in permutations:
+        if (len(evalString2) > 7):
+            
+            for n in range(4, 5, 1):
+                permutations = ngrams(evalString2.split(), n) #Generate random words from the string
+                for x in permutations:
                 # If there is a valid english word in the string (based on pyenchant dict), add to interesting strings
-                if (len(x) > 2):
                     if (d.check(x) == True):
-                        interestingStrings.append(evalString1) #Add original string for human analysis
+                        interestingStrings.append(evalString1) #Add string without \n for human analysis
                         interestingStringsLine.append(line)
                         interestingStringsString.append(x)
                         global interestingStringsCounter
                         interestingStringsCounter += 1
-                        break
+                        return True
     else:
-        return None
+        return False
         
 
 #Main looping through each line of string
@@ -100,5 +100,5 @@ print("")
 print("-------------[Interesting Strings (With valid english words) ]-------------")
 print("Found " + str(interestingStringsCounter) + " interesting strings(s)")
 for x in range(0, len(interestingStrings), 1):
-    print(str(interestingStringsLine[x]) + ": " + interestingStrings[x] + " --> " + interestingStringsString[x])
+    print(str(interestingStringsLine[x]) + ": " + interestingStrings[x] + " ---> " + interestingStringsString[x])
 
