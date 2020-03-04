@@ -97,8 +97,8 @@ print("Found " + str(linksCounter) + " link(s)")
 for x in range(0, len(links), 1):
     print(str(linksLine[x]) + ": " + links[x])
 print("")
-print("-------------[Interesting Strings (With valid english words) ]-------------")
+print("-------------[Interesting Strings (With Valid English Words) ]-------------")
 print("Found " + str(interestingStringsCounter) + " interesting strings(s)")
 for x in range(0, len(interestingStrings), 1):
-    print(str(interestingStringsLine[x]) + ": " + interestingStrings[x] + " --> " + interestingStringsString[x])
+    print(str(interestingStringsLine[x]) + ": " + interestingStrings[x] + " ---> " + interestingStringsString[x])
 
