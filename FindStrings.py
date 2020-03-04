@@ -60,19 +60,22 @@ def checkForWords(currentString, line):
     
     if (len(currentString) > 8):
         evalString1 = currentString.replace("\n", "")
-        evalString2 = re.sub('[^\w]', '', evalString1)
+        evalString2 = re.sub(' ', '', evalString1)
+        evalString2 = re.sub('[^\w]', '', evalString2)
         evalString2 = re.sub('\d+', '', evalString2)
     
         if (len(evalString2) > 7):
             
-            for n in range(4, 5, 1):
-                permutations = ngrams(evalString2.split(), n) #Generate random words from the string
+            
+            for n in range(4, 8, 1):
+                permutations = ngrams(list(evalString2), n) #Generate random words from the string
                 for x in permutations:
+                    joined = "".join(x)
                 # If there is a valid english word in the string (based on pyenchant dict), add to interesting strings
-                    if (d.check(x) == True):
+                    if (d.check(joined) == True):
                         interestingStrings.append(evalString1) #Add string without \n for human analysis
                         interestingStringsLine.append(line)
-                        interestingStringsString.append(x)
+                        interestingStringsString.append(joined)
                         global interestingStringsCounter
                         interestingStringsCounter += 1
                         return True
