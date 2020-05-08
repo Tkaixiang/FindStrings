@@ -56,7 +56,7 @@ def checkForLinks(currentString, line):
 #-----------------------------------------------       
 def checkForWords(currentString, line, minimum):
 
-
+    #Removes junk from strings
     evalString1 = currentString.replace("\n", "")
     evalString2 = re.sub(' ', '', evalString1)
     evalString2 = re.sub('[^\w]', '', evalString2)
@@ -115,6 +115,7 @@ def helpPrint():
 
 if __name__ == "__main__":
 
+    #No filename/options supplied
     if len(sys.argv) == 1:
         tqdm.write("Error: No file or options supplied. Please supply the filename!")
         helpPrint()
@@ -163,7 +164,7 @@ if __name__ == "__main__":
         tqdm.write("Begining analysis... this may take a while")
         tqdm.write("")
         tqdm.write("--------------------------[Results]--------------------------")
-        tqdm.write("[Note:] The numbers are NOT line numbers, they are based on the order of strings")
+        tqdm.write("[Note:] These numbers are NOT line numbers, they are based on the order of strings")
         tqdm.write("")
         pool = multiprocessing.Pool()
         try:
@@ -177,8 +178,9 @@ if __name__ == "__main__":
             pool.close()
             pool.join()
 
-            tqdm.write("--------------------------[Links]--------------------------")
-            for x in range(0, len(finalLinks), 1):
-                tqdm.write("Line " + str(finalLinksLine[x]) + " | " + str(finalLinks[x]))
+            if (options["-L"] == True):
+                tqdm.write("--------------------------[Links]--------------------------")
+                for x in range(0, len(finalLinks), 1):
+                    tqdm.write("Line " + str(finalLinksLine[x]) + " | " + str(finalLinks[x]))
             
            
